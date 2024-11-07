@@ -1,10 +1,96 @@
 <!DOCTYPE html>
 <html lang="en">
+  
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-  </head>
-  <body></body>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="app">
+    <h1>CharacterList</h1>
+    <ul v-if="characterList.length > 0">
+      <!-- <li v-for="character in characterList" :key="character.name"> -->
+      <li v-for="character in characterList">
+        <button @click="addToFavourites(character)">+</button>
+        {{ character.name }}
+      </li>
+    </ul>
+    <p v-else>There are no characters</p>
+    <p>There are {{ characterList.length }} characters:
+      <span v-for="(character, index) in characterList">{{ character.name }}{{ index === characterList.length - 1 ? '' : ', '}}
+      </span>
+    </p>
+    <h2>Favourite characters</h2>
+    <ul v-if="favouritesList.length > 0">
+      <li v-for="favourite in favouritesList">
+        <button @click="removeFromFavourites(favourite)">-</button>
+        {{ favourite.name }}
+      </li>
+    </ul>
+    <p v-else>There are no favourites</p>
+    <h2>Add a character</h2>
+    <input v-model="newCharacter.name" @keyup.enter="addCharacter"/><button @click="addCharacter">Add Character</button>
+  </div>
+
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <script>
+    const { createApp } = Vue;
+
+      const app = createApp({
+      data: () => ({
+        newCharacter: {
+          name: "",
+        },
+        characterList: [
+          {
+            name: "Mario",
+          },
+          {
+            name: "Luigi",
+          },
+          {
+            name: "Yoshi",
+          },
+          {
+            name: "Bowser",
+          },
+        ],
+        favouritesList: [],
+      }),
+      methods: {
+        addToFavourites(character) {
+          this.favouritesList.push(character);
+          this.characterList = this.characterList.filter(
+            (char) => char.name !== character.name
+          );
+        },
+        removeFromFavourites(favourite) {
+          this.favouritesList.pop(favourite);
+          this.characterList.push(favourite);
+          this.favouritesList = this.favouritesList.filter(
+            (char) => char.name !== character.name
+          );
+        },
+        addCharacter() {
+          this.characterList.push(this.newCharacter);
+          this.newCharacter = "";
+        },
+      }
+    }).mount("#app");
+  </script>
+
+  <style>
+    body {
+      font-family: "Inter", sans-serif;
+    }
+    li {
+      list-style-type: none;
+      margin: 1rem 0;
+    }
+  </style>
+</body>
+
 </html>
