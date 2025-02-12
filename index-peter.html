@@ -40,7 +40,13 @@
       <input
         v-model="newCharacter.name"
         @keyup.enter="addCharacter" />
-      <button @click="addCharacter">Add Character</button>
+      <button @click="addCharacter" :disabled="!newCharacter.name">Add Character</button>
+      <h2>Statistics – fav fruits:</h2>
+      <ul>
+        <li v-for="(data, fruit) in favStatistics" :key="fruit">
+          {{ fruit }} is fav by {{ data.count }}: <span v-for="(name, index) in data.names" :key="name">{{ name }}{{ index === data.names.length - 1 ? '' : ', ' }}</span>
+        </li>
+      </ul>
     </div>
 
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
@@ -56,23 +62,38 @@
           characterList: [
             {
               name: 'Mario',
-              elements: ['Banana, Orange, Avocodo'],
+              favs: ['Avocado', 'Banana', 'Orange'],
             },
             {
               name: 'Luigi',
-              elements: ['Mango, Melon, Avocodo'],
+              favs: ['Mango', 'Melon', 'Avocado'],
             },
             {
               name: 'Yoshi',
-              elements: ['Orange, Pineapple'],
+              favs: ['Orange', 'Pineapple'],
             },
             {
               name: 'Bowser',
-              elements: ['Banana'],
+              favs: ['Banana'],
             },
           ],
           favouritesList: [],
         }),
+        computed: {
+          favStatistics() {
+            const stats = {};
+            this.characterList.forEach(character => {
+              character.favs.forEach(fav => {
+                if (!stats[fav]) {
+                  stats[fav] = { count:0, names:[]};
+                }
+                stats[fav].count++;
+                stats[fav].names.push(character.name);
+              });
+            });
+            return stats;
+          }
+        },
         methods: {
           addToFavourites(character) {
             this.favouritesList.push(character);
