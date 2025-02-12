@@ -42,6 +42,9 @@
         @keyup.enter="addCharacter" />
       <button @click="addCharacter" :disabled="!newCharacter.name">Add Character</button>
       <h2>Statistics – fav fruits:</h2>
+      <!-- solution Ben: -->
+       {{ favStatisticsFixed}}
+      <!-- solution copilot: -->
       <ul>
         <li v-for="(data, fruit) in favStatistics" :key="fruit">
           {{ fruit }} is fav by {{ data.count }}: <span v-for="(name, index) in data.names" :key="name">{{ name }}{{ index === data.names.length - 1 ? '' : ', ' }}</span>
@@ -80,6 +83,7 @@
           favouritesList: [],
         }),
         computed: {
+          // solution copilot:
           favStatistics() {
             const stats = {};
             this.characterList.forEach(character => {
@@ -89,6 +93,27 @@
                 }
                 stats[fav].count++;
                 stats[fav].names.push(character.name);
+              });
+            });
+            return stats;
+          },
+          // solution Ben:
+          favStatisticsFixed() {
+            const favs = ['Avocado', 'Banana', 'Orange', 'Mango', 'Melon', 'Pineapple'];
+            const stats = {
+              Avocado: 0,
+              Banana: 0,
+              Orange: 0,
+              Mango: 0,
+              Melon: 0,
+              Pineapple: 0
+            };
+
+            this.characterList.forEach((character) => {
+              favs.forEach((fav) => {
+                if (character.favs.includes(fav)) {
+                  stats[fav]++;
+                }
               });
             });
             return stats;
