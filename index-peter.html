@@ -43,8 +43,15 @@
       <button @click="addCharacter" :disabled="!newCharacter.name">Add Character</button>
       <h2>Statistics – fav fruits:</h2>
       <!-- solution Ben: -->
-       {{ favStatisticsFixed}}
+       <!-- <pre>{{ favStatisticsFixed}}</pre> -->
+       <ul>
+        <!-- <li v-for="stat in favStatisticsFixed"> only shows value -->
+        <li v-for="(stat, fruit) in favStatisticsFixed">
+          {{ fruit }} is fav by {{ stat }}
+        </li>
+      </ul>
       <!-- solution copilot: -->
+      <!-- <pre>{{ favStatistics}}</pre> -->
       <ul>
         <li v-for="(data, fruit) in favStatistics" :key="fruit">
           {{ fruit }} is fav by {{ data.count }}: <span v-for="(name, index) in data.names" :key="name">{{ name }}{{ index === data.names.length - 1 ? '' : ', ' }}</span>
