@@ -42,7 +42,7 @@
         @keyup.enter="addCharacter" />
       <button @click="addCharacter" :disabled="!newCharacter.name">Add Character</button>
       <h2>Statistics – fav fruits:</h2>
-      <!-- solution Ben: -->
+      <pre>solution Ben (fixed array):</pre>
        <!-- <pre>{{ favStatisticsFixed}}</pre> -->
        <ul>
         <!-- <li v-for="stat in favStatisticsFixed"> only shows value -->
@@ -50,7 +50,7 @@
           {{ fruit }} is fav by {{ stat }}
         </li>
       </ul>
-      <!-- solution copilot: -->
+      <pre>solution copilot (dynamic array):</pre>
       <!-- <pre>{{ favStatistics}}</pre> -->
       <ul>
         <li v-for="(data, fruit) in favStatistics" :key="fruit">
@@ -72,7 +72,7 @@
           characterList: [
             {
               name: 'Mario',
-              favs: ['Avocado', 'Banana', 'Orange'],
+              favs: ['Avocado', 'Banana', 'Orange', 'Mango'],
             },
             {
               name: 'Luigi',
@@ -80,7 +80,7 @@
             },
             {
               name: 'Yoshi',
-              favs: ['Orange', 'Pineapple'],
+              favs: ['Orange', 'Pineapple', 'Raspberry'],
             },
             {
               name: 'Bowser',
