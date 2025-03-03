@@ -35,7 +35,6 @@ export default {
     <h1>Vue Playground</h1>
 
     <UserCard :user="userData" @change-name="changeName" />
-    <UserCard :user="userData" name="Ben" />
 
     <BaseCounter />
     <base-counter />
