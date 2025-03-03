@@ -81,7 +81,7 @@ export default {
     @keyup.enter="addCharacter" />
   <button @click="addCharacter" :disabled="!newCharacter.name">Add Character</button>
   
-  <FruitStatistics />
+  <FruitStatistics :characterList="characterList" />
 </template>
 
 <style>

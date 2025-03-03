@@ -1,7 +1,6 @@
 <script>
 export default {
-  data: () => ({
-  }),
+  props: ['characterList'],
   computed: {
     // solution copilot:
     favStatistics() {
