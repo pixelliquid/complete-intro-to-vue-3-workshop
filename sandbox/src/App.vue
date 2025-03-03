@@ -1,144 +1,91 @@
 <script>
 export default {
-  data: () => ({
-    newCharacter: {
-      name: '',
-      favs: [],
-    },
-    characterList: [
-      {
-        name: 'Mario',
-        favs: ['Avocado', 'Banana', 'Orange', 'Mango'],
-      },
-      {
-        name: 'Luigi',
-        favs: ['Mango', 'Melon', 'Avocado'],
-      },
-      {
-        name: 'Yoshi',
-        favs: ['Orange', 'Pineapple', 'Raspberry'],
-      },
-      {
-        name: 'Bowser',
-        favs: ['Banana'],
-      },
-    ],
-    favouritesList: [],
-  }),
+  data() {
+    return {
+      count: 10,
+      counterTitle: "Counter",
+      incrementAmount: 10,
+      //
+      message: "Hello it works",
+      //
+      listOfNumbers: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+    };
+  },
   computed: {
-    // solution copilot:
-    favStatistics() {
-      const stats = {};
-      this.characterList.forEach(character => {
-        character.favs.forEach(fav => {
-          if (!stats[fav]) {
-            stats[fav] = { count:0, names:[]};
-          }
-          stats[fav].count++;
-          stats[fav].names.push(character.name);
-        });
-      });
-      return stats;
-    },
-    // solution Ben:
-    favStatisticsFixed() {
-      const favs = ['Avocado', 'Banana', 'Orange', 'Mango', 'Melon', 'Pineapple'];
-      const stats = {
-        Avocado: 0,
-        Banana: 0,
-        Orange: 0,
-        Mango: 0,
-        Melon: 0,
-        Pineapple: 0
-      };
-
-      this.characterList.forEach((character) => {
-        favs.forEach((fav) => {
-          if (character.favs.includes(fav)) {
-            stats[fav]++;
-          }
-        });
-      });
-      return stats;
+    displayTitle() {
+      if (this.count > 20) {
+        return "Counter is soo high!";
+      } else {
+        return "Counter";
+      }
     }
   },
   methods: {
-    addToFavourites(character) {
-      this.favouritesList.push(character);
-      this.characterList = this.characterList.filter(
-        (char) => char.name !== character.name
-      );
+    changeIncrementAmount(event) {
+      console.log(event.target.value)
+      // this.incrementAmount = event.target.value - this will not work as its a string
+      this.incrementAmount = Number(event.target.value) // we have to convert this to number
     },
-    removeFromFavourites(favourite) {
-      this.favouritesList.pop(favourite);
-      this.characterList.push(favourite);
-      this.favouritesList = this.favouritesList.filter(
-        (char) => char.name !== character.name
-      );
+    incrementCount() {
+      this.count += this.incrementAmount;
     },
-    addCharacter() {
-      this.characterList.push(this.newCharacter);
-      this.newCharacter = '';
+    decrementCount() {
+      this.count -= this.incrementAmount;
     },
-  }
+  },
+  watch: {
+    count(newValue) {
+      console.log("count changed to", newValue);
+      if (newValue > 20) {
+        this.counterTitle += " is soo high!";
+      }
+    }
+  },
 };
 </script>
 
 <template>
   <div id="app">
-    <h1>Characters</h1>
-    <ul v-if="characterList.length > 0">
-      <!-- <li v-for="character in characterList" :key="character.name"> -->
-      <li v-for="character in characterList" :key="character.name">
-        <button @click="addToFavourites(character)">+</button>
-        {{ character.name }}
-      </li>
-    </ul>
-    <p v-else>There are no characters</p>
-    <p>
-      There are {{ characterList.length }} characters:
-      <span v-for="(character, index) in characterList" :key="index">
-        {{ character.name }}{{ index === characterList.length - 1 ? '' : ','}}
-      </span>
-    </p>
-    <h2>Favourite characters</h2>
-    <ul v-if="favouritesList.length > 0">
-      <li v-for="favourite in favouritesList" :key="favourite.name">
-        <button @click="removeFromFavourites(favourite)">-</button>
-        {{ favourite.name }}
-      </li>
-    </ul>
-    <p v-else>There are no favourites</p>
-    <h2>Add a character</h2>
-    <input
-      v-model="newCharacter.name"
-      @keyup.enter="addCharacter" />
-    <button @click="addCharacter" :disabled="!newCharacter.name">Add Character</button>
-    <h2>Statistics – fav fruits:</h2>
-    <pre>solution Ben (fixed array):</pre>
-    <!-- <pre>{{ favStatisticsFixed}}</pre> -->
-    <ul>
-      <!-- <li v-for="stat in favStatisticsFixed"> only shows value -->
-      <li v-for="(stat, fruit) in favStatisticsFixed" :key="fruit">
-        {{ fruit }} is fav by {{ stat }}
-      </li>
-    </ul>
-    <pre>solution copilot (dynamic array):</pre>
-    <!-- <pre>{{ favStatistics}}</pre> -->
-    <ul>
-      <li v-for="(data, fruit) in favStatistics" :key="fruit">
-        {{ fruit }} is fav by {{ data.count }}: <span v-for="(name, index) in data.names" :key="name">{{ name }}{{ index === data.names.length - 1 ? '' : ', ' }}</span>
-      </li>
-    </ul>
-  </div>
+      <h1>Vue Playground</h1>
+      <p>{{ displayTitle }}: {{ count }}</p>
+      <div class="counterTools">
+        <button v-on:click="incrementCount">Increment count</button>
+        <button @click="decrementCount">Decrement count</button>
+        <label for="incrementCount">Increment by:</label>
+        <!-- using v-model -->
+        <input
+          type="number"
+          id="incrementCount"
+          v-model="incrementAmount"
+        />
+        <!-- without v-model -->
+        <input type="number" id="incrementCount" v-bind:value="incrementAmount" v-on:input="changeIncrementAmount" />
+      </div>
+
+      <hr />
+
+      <h2 v-if="message.length % 2 === 0">
+        {{ message.toUpperCase() }} (even amount of letters: {{message.length}})
+      </h2>
+      <h2 v-else>
+        {{ message }} (uneven amount of letters: {{message.length}})
+      </h2>
+
+      <hr />
+      <ul>
+        <li v-for="number in listOfNumbers" :key="number">
+          {{ number }}
+        </li>
+      </ul>
+    </div>
 </template>
 
 <style>
   body {
     font-family: 'Inter', sans-serif;
   }
-  li {
-    list-style-type: none;
-    margin: 1rem 0;
+  .counterTools {
+    display: flex;
+    gap: 1rem;
   }
 </style>
