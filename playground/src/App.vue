@@ -1,15 +1,23 @@
 <script>
 import BaseCounter from "./components/BaseCounter.vue";
 import BaseButton from "./components/BaseButton.vue";
+import UserCard from "./components/UserCard.vue";
 export default {
   components: {
     BaseCounter,
-    BaseButton
+    BaseButton,
+    UserCard
   },
   data() {
     return {
       message: "Hello it works",
       listOfNumbers: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+      userData: {
+        name: "Peter",
+        preferredLanguage: "JavaScript",
+        favouriteFood: "Sushi",
+        hobbies: ["Coding", "Cooking", "Gaming"],
+      },
     };
   },
 };
@@ -18,6 +26,9 @@ export default {
 <template>
   <div id="app">
     <h1>Vue Playground</h1>
+
+    <UserCard :user="userData" />
+    <UserCard :user="userData" name="Ben" />
 
     <BaseCounter />
     <base-counter />
