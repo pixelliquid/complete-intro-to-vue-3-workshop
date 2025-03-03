@@ -1,8 +1,10 @@
 <script>
 import FruitStatistics from './components/FruitStatistics.vue';
+import CharacterCard from './components/CharacterCard.vue';
 export default {
   components: {
     FruitStatistics,
+    CharacterCard
   },
   data: () => ({
     newCharacter: {
@@ -30,10 +32,10 @@ export default {
     favouritesList: [],
   }),
   methods: {
-    addToFavourites(character) {
-      this.favouritesList.push(character);
+    addToFavourites(payload) {
+      this.favouritesList.push(payload);
       this.characterList = this.characterList.filter(
-        (char) => char.name !== character.name
+        (char) => char.name !== payload.name
       );
     },
     removeFromFavourites(favourite) {
@@ -56,8 +58,8 @@ export default {
   <ul v-if="characterList.length > 0">
     <!-- <li v-for="character in characterList" :key="character.name"> -->
     <li v-for="character in characterList" :key="character.name">
-      <button @click="addToFavourites(character)">+</button>
-      {{ character.name }}
+      <!-- placeholder -->
+       <CharacterCard :character="character" @favourite="addToFavourites"/>
     </li>
   </ul>
   <p v-else>There are no characters</p>
