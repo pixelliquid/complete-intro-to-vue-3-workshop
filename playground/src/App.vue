@@ -20,6 +20,13 @@ export default {
       },
     };
   },
+  methods: {
+    changeName() {
+      console.log("Button clicked");
+      this.userData.name = 'Snickers';
+      console.log("Name changed to:", this.userData.name);
+    },
+  },
 };
 </script>
 
@@ -27,7 +34,7 @@ export default {
   <div id="app">
     <h1>Vue Playground</h1>
 
-    <UserCard :user="userData" />
+    <UserCard :user="userData" @change-name="changeName" />
     <UserCard :user="userData" name="Ben" />
 
     <BaseCounter />
