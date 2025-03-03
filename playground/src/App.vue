@@ -1,8 +1,10 @@
 <script>
 import BaseCounter from "./components/BaseCounter.vue";
+import BaseButton from "./components/BaseButton.vue";
 export default {
   components: {
     BaseCounter,
+    BaseButton
   },
   data() {
     return {
@@ -20,6 +22,8 @@ export default {
     <BaseCounter />
     <base-counter />
 
+    <base-button />
+    
     <hr />
 
     <h2 v-if="message.length % 2 === 0">

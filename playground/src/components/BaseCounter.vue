@@ -41,6 +41,7 @@ export default {
 </script>
 
 <template>
+  <h2>Counter</h2>
   <p>{{ displayTitle }}: {{ count }}</p>
     <div class="counterTools">
       <button v-on:click="incrementCount">Increment count</button>
